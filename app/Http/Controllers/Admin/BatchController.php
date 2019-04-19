@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Tools\ToolsAdmin;
 use App\Model\Batch;
 use App\Model\Bonus;
+use App\Jobs\BonusBatchJob;
 class BatchController extends Controller
 {
     //批次列表
@@ -30,11 +31,14 @@ class BatchController extends Controller
     	$params = $request->all();
 
     	$params = $this->delToken($params);
+
+        // dd($params);
     		// dd($params);
     	$params['file_path'] =  ToolsAdmin::uploadFile($params['file_path'],false);
     	$params['status'] = 2;
     	$batch = new Batch();
 
+        // dd($params);
     	$res = $this->storeData($batch,$params);
 
     	if(!$res){
@@ -47,18 +51,26 @@ class BatchController extends Controller
     //执行批次
     public function doBatch($id)
     {
+
+
         //获取批次的信息
     	$batch = new Batch();
     	$batchInfo = $this->getDataInfo($batch, $id);
+
         //获取上传文件的内容
     	$fileContent = file_get_contents(substr($batchInfo['file_path'], 1));
         $arr =explode("\r\n", $fileContent);
+
         //发送红包的批次
         if($batchInfo['type'] == 1){
+
             //把读出来文件内容进行数组的拆分
             $arr = array_chunk($arr, 2);
+
+            
             //红包的id
             $bonusId = $batchInfo['content'];
+            // dd($bonusId);
             $bonus = new Bonus();
             $bonusInfo = $this->getDataInfo($bonus,$bonusId);
             //循环如队列
@@ -69,6 +81,7 @@ class BatchController extends Controller
                     'expires'  => $bonusInfo['expires']
                 ];
                 //实例化队列任务类
+                
                 $job = new BonusBatchJob($data);
                 //执行任务分发
                 dispatch($job);

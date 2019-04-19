@@ -26,7 +26,7 @@
           </div>
 
           <h4 class="panel-title">权限添加表单</h4>
-          <p>Individual form controls automatically receive some global styling. All textual elements with <code>.form-control</code> are set to width: 100%; by default. Wrap labels and controls in <code>.form-group</code> for optimum spacing.</p>
+         
         </div>
         <div class="panel-body panel-body-nopadding">
 
@@ -35,7 +35,7 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">上级表单</label>
               <div class="col-sm-6">
-                <select name="fid" class="form-bordered">
+                <select name="fid" class="form-control">
 					<option value="0">顶级表单</option>
 					@foreach($permissions as $permission)
 						<option value="{{$permission['id']}}">{{$permission['name']}}</option>

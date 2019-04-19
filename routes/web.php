@@ -69,8 +69,24 @@ Route::prefix("admin")->group(function(){
 	Route::any("login","Admin\AdminController@login");
 	Route::any("getlogin","Admin\AdminController@getLogin");
 	Route::any("logout","Admin\AdminController@logout");
-	
+    
+
+	//忘记密码
+    
+    //忘记密码页面
+    Route::any("forget","Admin\ForgetController@list");
+    //执行发邮件
+    Route::any("forget/sendEmail","Admin\ForgetController@sendEmail");
+    //邮件HTML的格式页面
+    Route::any("forget/email","Admin\ForgetController@email");
+    //重置密码页面
+    Route::any("forget/reset","Admin\ForgetController@reset");
+    //执行重置密码
+    Route::any("forget/save","Admin\ForgetController@save");
 });
+
+
+
 
 Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(function(){
 
@@ -397,6 +413,29 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
     //执行批次
     Route::get("batch/doBatch/{id}","Admin\BatchController@doBatch")->name('admin.batch.doBatch');
       ###################################[批次相关]##########################
+      
+
+    /***************************************订单管理**************************************************/
+
+    Route::get("order/list","Admin\OrderController@list")->name("admin.order.list");
+
+    Route::get("order/detail/{id}","Admin\OrderController@detail")->name("admin.order.detail");
+
+    /***************************************订单管理**************************************************/
+
+    /***************************************修改密码**************************************************/
+
+
+    Route::get("user/password/{id}","Admin\PasswordController@password")->name("admin.user.password");
+    Route::post("user/doPassword","Admin\PasswordController@doPassword")->name("admin.user.doPassword");
+
+
+    //忘记密码
+    
+
+
+    /***************************************修改密码**************************************************/
+    
 
 }); 
 

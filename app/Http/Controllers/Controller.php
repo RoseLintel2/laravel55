@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     const
-        PAGE_SIZE = 2,
+        PAGE_SIZE = 6,
         END        = true;
 
 
@@ -27,6 +27,14 @@ class Controller extends BaseController
         unset($params['_token']);
 
         return $params;
+    }
+
+    //查询总数
+    public function getCount($object , $where=[])
+    {
+        $num = $object->where($where)->count();
+
+        return $num;
     }
 
     //保存操作，可用于添加和修改
@@ -59,6 +67,13 @@ class Controller extends BaseController
         return $object->where($key,$id)->first();
     }
 
+    public function getDataInfoByWhere($object,$where = [])
+    {
+        $info = $object->where($where)->first();
+
+        return $info;
+    }
+    
     //无分页的数据列表
     public function getLists($object,$where=[])
     {

@@ -35,7 +35,7 @@
              <div class="form-group">
               <label class="col-sm-3 control-label">用户角色</label>
               <div class="col-sm-6">
-                <select name="role_id" class="form-bordered" >
+                <select name="role_id" class="form-control" >
                 	@if(!empty($roles))
                 		@foreach($roles as $role)
                 			<option value="{{$role['id']}}">{{$role['rolename']}}</option>

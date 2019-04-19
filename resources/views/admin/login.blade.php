@@ -49,7 +49,7 @@
                     {{csrf_field()}}
                     <input type="text" class="form-control uname" placeholder="用户名"  name="username">
                     <input type="password" class="form-control pword" placeholder="密码" name="password">
-                    <a href=""><small>Forgot Your Password?</small></a>
+                    <a href="/admin/forget"><small>忘记密码了吗?</small></a>
                     <div v-if="error_show" style="color:#ff0000">{error_msg}</div>
                     <button class="btn btn-success btn-block" v-on:click="login">立即登录</button>
                     

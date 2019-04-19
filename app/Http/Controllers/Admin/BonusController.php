@@ -100,7 +100,7 @@ class BonusController extends Controller
         $params = $request->all();
 
         $params = $this->delToken($params);
-    
+        // dd($params);
         //查询用户的信息
         $user = new Member();
 
