@@ -32,6 +32,8 @@ abstract class Controller
         return new ControllerMiddlewareOptions($options);
     }
 
+    
+
     /**
      * Get the middleware assigned to the controller.
      *

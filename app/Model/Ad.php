@@ -18,7 +18,7 @@ class Ad extends Model
     {
         return self::select("jy_ad.*","jy_ad_position.position_name")
                         ->leftJoin("jy_ad_position","jy_ad.position_id","=","jy_ad_position.id")
-                        ->paginate(2);
+                        ->paginate(6);
     }
 
     //获取单条信息

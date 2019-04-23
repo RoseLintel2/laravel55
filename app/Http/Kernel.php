@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+           
         ],
 
         'api' => [
@@ -61,5 +62,7 @@ class Kernel extends HttpKernel
         "check_age" =>\App\Http\Middleware\CheckAge::class,
         "admin_auth" =>\App\Http\Middleware\AdminAuth::class, //自定义后台登录的中间件
         "permission_auth" => \App\Http\Middleware\PermissionAuth::class, //自定义后台权限验证的中间件
+        "api_auth" =>\App\Http\Middleware\AdminAuth::class,  //自定义给前台think5提供接口数据
+        "cors" =>\App\Http\Middleware\Cors::class,  //ajax跨域
     ];
 }

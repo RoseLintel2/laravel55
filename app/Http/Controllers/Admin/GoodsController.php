@@ -96,6 +96,7 @@ class GoodsController extends Controller
             DB::beginTransaction();
             //添加商品信息
             $goods = new Goods();
+
             $goodsId = $this->addDataBackId($goods, $params);
 
             //添加相册的信息
@@ -105,11 +106,12 @@ class GoodsController extends Controller
             foreach ($gallery as $key => $value) {
                 //判断是否上传了图片
                 if(array_key_exists('image_url', $value)){
-                    $value['image_url'] = ToolsAdmin::uploadFile($value['image_url']);//上传后图片地址
+                    $value['image_url'] = ToolsAdmin::uploadFile($value['image_url'],false);//上传后图片地址
                     $value['goods_id'] = $goodsId;
                     $gallery_data[$key] = $value;//组装新的数据
                 }
             }
+
             //2、执行添加的操作
             if(!empty($gallery_data)){
                 $goodsGallery = new GoodsGallery();
@@ -168,7 +170,7 @@ class GoodsController extends Controller
             foreach ($gallery as $key => $value) {
                 //判断是否上传了图片
                 if(array_key_exists('image_url', $value)){
-                    $value['image_url'] = ToolsAdmin::uploadFile($value['image_url']);//上传后图片地址
+                    $value['image_url'] = ToolsAdmin::uploadFile($value['image_url'],false);//上传后图片地址
                     $value['goods_id'] = $params['id'];
                     $gallery_data[$key] = $value;//组装新的数据
                 }

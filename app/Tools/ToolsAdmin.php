@@ -5,7 +5,7 @@
 	class ToolsAdmin
 	{	
 		//无限极分类数据组装
-		public static function buildTree($data,$fid=0)
+		public static function buildTree($data,$fid=0,$parent_id = "fid")
 		{
 			if(empty($data)){
 				return [];
@@ -15,26 +15,31 @@
 
 			foreach ($data as $key => $value) {
 
-				if($value['fid'] == $fid){
+				if($value[$parent_id] == $fid){
 					// 如果key值不存在
 					// 看是否定义父类fid
-					if(!isset($menus[$value['fid']])){
+					if(!isset($menus[$value[$parent_id]])){
 						// 给父类fid赋值
 						$menus[$value['id']] = $value;
 					}else{
-						$menus[$value['fid']]['son'][$value['id']] = $value;
+						$menus[$value[$parent_id]]['son'][$value['id']] = $value;
 					}
 
 					//删除已经添加过的数据
 					unset($data[$key]);
 
 					//执行递归调用
-					self::buildTree($data,$value['id']);
+					self::buildTree($data,$value['id'],$parent_id);
 				}
 			}
 
 			return $menus;
 		}
+
+
+		
+		
+		
 
 		//创建无限极分类
         public static function buildTreeString($data,$fid=0,$level=0,$fKey="fid")

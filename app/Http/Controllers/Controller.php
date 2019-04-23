@@ -7,6 +7,13 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+// 指定允许其他域名访问  
+header('Access-Control-Allow-Origin:*');  
+// 响应类型  
+header('Access-Control-Allow-Methods:POST, GET, OPTIONS, PUT, DELETE');  
+// 响应头设置  
+header('Access-Control-Allow-Headers:x-requested-with,content-type');
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -15,8 +22,7 @@ class Controller extends BaseController
         PAGE_SIZE = 6,
         END        = true;
 
-
-
+  
     //删除token值
     public function delToken(array  $params)
     {

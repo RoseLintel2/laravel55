@@ -63,3 +63,27 @@ Route::post("/comment/add","Api\CommentController@add");
 Route::post("/comment/list/{novelId}","Api\CommentController@list");
 //评论删除
 Route::post("/comment/del/{id}","Api\CommentController@del");
+
+
+
+
+/*****************给前台think5提供接口***************************/
+
+// Route::middleware(['api_auth'])->group(function(){
+	
+	//前台首页广告接口
+	Route::any('ad/list','HomeApi\AdController@list');
+
+	//前台首页商品接口
+	Route::any('goods/getGods','HomeApi\GoodsController@getGods');
+
+    //首页商品类型
+    Route::any('category/getlist','HomeApi\CategoryController@getlist');
+
+
+
+// }); 
+
+/*****************给前台think5提供接口***************************/
+
+

@@ -40,7 +40,7 @@
                     <label class="col-sm-3 control-label">广告位置</label>
                     <div class="col-sm-6">
                         <select class="form-control" name="position_id">
-                            <option value="1">首页banner</option>
+                            
                             @if(!empty($list))
                                 @foreach($list as  $v)
                                     <option value="{{$v['id']}}">{{$v['position_name']}}</option>

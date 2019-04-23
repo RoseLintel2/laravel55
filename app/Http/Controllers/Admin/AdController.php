@@ -8,14 +8,22 @@ use App\Model\Ad;
 use App\Model\AdPosition;
 use App\Tools\ToolsAdmin;
 use Excel;
+use App\Tools\ToolsOss;
 class AdController extends Controller
 {
     //列表页面
     public function list()
     {
         $ad = new Ad();
-
+        $oss = new ToolsOss();
         $assign['list'] = $ad->getInfo();
+
+        //处理图片对象
+        foreach ($assign['list'] as $key => $value) {
+            $value['image_url']  = $oss->getUrl($value['image_url'],true);
+            $assign['list'][$key] = $value;
+        }
+        
 
         return view("admin.ad.list",$assign);
     }
@@ -32,19 +40,19 @@ class AdController extends Controller
     public function doAdd(Request $request)
     {
         $params = $request->all();;
-
+        // dd($params);
         if(!isset($params['image_url']) ||  empty($params['image_url'])){
             return redirect()->back()->with("msg","请先上传图片");
         }
 
         $files = $params['image_url'];
 
-        Excel::load($files->path(), function($reader) {
-            $data = $reader->all()->toArray();
-            dd($data);
-        });
+        $oss = new ToolsOss();
+
+        $params['image_url'] = $oss->putFile($files);
 
         $params = $this->delToken($params);
+        // dd($params);
 
         $ad = new Ad();
 
