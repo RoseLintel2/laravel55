@@ -430,11 +430,21 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
     Route::post("user/doPassword","Admin\PasswordController@doPassword")->name("admin.user.doPassword");
 
 
-    //忘记密码
-    
-
-
     /***************************************修改密码**************************************************/
+
+
+    /***************************************扩展**************************************************/
+
+    //测试事件机制页面
+    Route::get("test/add","Admin\TestController@add")->name("admin.test.add");
+    //测试事件机制页面
+    Route::post("test/store","Admin\TestController@store")->name("admin.test.store");
+
+
+    //测试图片懒加载
+    Route::any("lazyload/lists","Admin\LazyloadController@lists")->name("admin.lazyload.lists");
+
+    /***************************************扩展**************************************************/
     
 
 }); 

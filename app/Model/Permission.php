@@ -28,6 +28,7 @@ class Permission extends Model
         {   
             //当前登录用户的权限节点
             $pids = ToolsAdmin::getUserPermissionIds($user['user_id']);
+            // dd($pids);
 
             $permission = self::select("id","name","fid","url")
                         ->whereIn("id",$pids)

@@ -15,4 +15,10 @@ class Member extends Model
     					->where("jy_user.id",$id)
     					->first();
     }
+
+    //查询单条用户数据
+    public function getkkInfo($where){
+
+    	return self::where($where)->first();
+    }
 }

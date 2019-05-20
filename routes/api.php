@@ -81,6 +81,23 @@ Route::post("/comment/del/{id}","Api\CommentController@del");
     Route::any('category/getlist','HomeApi\CategoryController@getlist');
 
 
+    //发送短信认证码
+    Route::any('login/sendSms','HomeApi\LoginController@sendSms');
+
+    //注册接口
+    Route::any('login/register','HomeApi\LoginController@register');
+
+    //登录接口
+    Route::any('login/login','HomeApi\LoginController@login');
+
+    //商品详情
+    Route::any('goods/goodsInfo/{id}','HomeApi\GoodsController@goodsInfo');
+
+    //获取商品sku属性的列表信息
+    Route::post('goods/attr','HomeApi\GoodsController@getGoodsAttr');
+    
+
+
 
 // }); 
 

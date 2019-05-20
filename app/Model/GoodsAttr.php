@@ -12,7 +12,7 @@ class GoodsAttr extends Model
     protected $table = "jy_goods_attr";
     public $timestamps = false;
     //获取属性列表
-    public function getList($where=[])
+    public static function getList($where=[])
     {
         $list = self::select('jy_goods_attr.id','attr_name','jy_goods_type.type_name','input_type','attr_value','jy_goods_attr.status')
             ->leftJoin('jy_goods_type','jy_goods_attr.cate_id','=','jy_goods_type.id')

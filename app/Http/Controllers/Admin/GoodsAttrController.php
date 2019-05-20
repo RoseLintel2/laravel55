@@ -13,7 +13,7 @@ class GoodsAttrController extends Controller
     {
         $where['cate_id'] = $typeId;
 
-        $assign['list'] = GoodsAttr::getLists($where);
+        $assign['list'] = GoodsAttr::getList($where);
 
         return view("admin.goodsAttr.list",$assign);
     }

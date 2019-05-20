@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Goods;
 use App\Model\GoodsGallery;
 use App\Tools\ToolsOss;
+use App\Model\GoodsSku;
 
 class GoodsController extends Controller
 {
@@ -89,6 +90,120 @@ class GoodsController extends Controller
 
     	return json_encode($return);
 
+    }
+
+
+    /**
+     * 商品详情接口
+     * @param  int $id 商品的id
+     * @return json
+     */
+    public function goodsInfo($id)
+    {
+        //接口返回格式
+        $return = [
+            'code' => 2000,
+            'msg'  => '获取商品详情成功'
+        ];
+
+        //获取商品详情数据
+        $goods = new Goods();
+
+        $goodsInfo = $this->getDataInfo($goods, $id)->toArray();
+
+        //获取对应商品相册信息
+        $GoodsGallery = new GoodsGallery();
+
+        $gallers = $this->getLists($GoodsGallery , ['goods_id' => $id]);
+        $img = [];
+        foreach ($gallers as $key => $value) {
+            $img[] = 'http://www.laravel55.com'.$value['image_url'];
+
+            foreach ($img as $k => $v) {
+
+                $value['image_url'] = $v;
+            }
+
+            $gallers[$key]['image_url'] = $value['image_url'];
+            
+        }
+
+        // dd($gallers);
+
+        
+
+        //获取商品的sku的属性值
+        $goodsSku = new GoodsSku();
+
+        $spu = $goodsSku->getSpuHandle($id);
+
+        $sku = $goodsSku->getSkuList($id);
+
+        $sku_data= [];
+
+        //组装前台的sku数据
+        foreach ($sku as $k => $value) {
+            //如果不存在
+            if(!isset($sku_data[$value['attr_id']])){
+                
+                $sku_data[$value['attr_id']] = [
+                    'attr_name' => $value['attr_name'],
+                    'attr_sku'  => [
+
+                        [
+                            'sku_id' => $value['id'],
+                            'sku_value' => $value['sku_value'],
+                            'attr_price' => $value['attr_price']
+
+                        ]
+
+                    ]
+                ];
+            }else{
+            //如果存在了
+                $sku_data[$value['attr_id']]['attr_sku'][] = [
+
+                    'sku_id' => $value['id'],
+                    'sku_value' => $value['sku_value'],
+                    'attr_price' => $value['attr_price']
+                ];
+
+            }
+
+        }
+
+        $return['data'] = [
+            'goods'  => $goodsInfo,
+            'gallers' => $gallers,
+            'spu'     => $spu,
+            'sku'     => $sku_data
+        ];
+
+        return json_encode($return);
+    }
+
+    //获取商品sku属性的列表信息
+    public function getGoodsAttr(Request $request)
+    {
+        //传过来的sku的ids
+        $sku_ids = $request->input('sku_ids');
+
+        $sku_ids = explode(',', $sku_ids);
+
+        $sku = \DB::table('jy_goods_sku')->select('attr_id','sku_value')->whereIn('attr_id',$sku_ids)->get();
+        // dd($sku);
+        $skuData = [];
+        foreach ($sku as $key => $value) {
+
+            //获取属性名
+            $attr = \DB::table('jy_goods_attr')->select('attr_name')->where('id',$value->attr_id)->first();
+            // dd($attr,$value->sku_value,$attr->attr_name);
+
+            $skuData[$key]['sku_value'] = $value->sku_value;
+            $skuData[$key]['attr_name'] = $attr->attr_name;
+        }
+        // dd($skuData);
+        return json_encode($skuData);
     }
 
     
